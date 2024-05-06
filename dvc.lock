@@ -1,0 +1,220 @@
+schema: '2.0'
+stages:
+  IDG_SMILES-Water:
+    cmd: zntrack run ipsuite.nodes.SmilesToAtoms --name IDG_SMILES-Water
+    params:
+      params.yaml:
+        IDG_SMILES-Water:
+          cell:
+          optimizer: UFF
+          seed: 1234
+          smiles: O
+    outs:
+    - path: nodes/IDG/SMILES-Water/atoms.h5
+      hash: md5
+      md5: 18e1daf34a7a2c928ab218e8c24b835b
+      size: 27968
+    - path: nodes/IDG/SMILES-Water/molecule.png
+      hash: md5
+      md5: 2c85ac4512e25996742ce38d8d72c0dd
+      size: 2793
+    - path: nodes/IDG/SMILES-Water/node-meta.json
+      hash: md5
+      md5: afaace04513f5500fde9897d345a2d48
+      size: 48
+  IDG_Packmol:
+    cmd: zntrack run ipsuite.nodes.Packmol --name IDG_Packmol
+    deps:
+    - path: nodes/IDG/SMILES-Water/atoms.h5
+      hash: md5
+      md5: 18e1daf34a7a2c928ab218e8c24b835b
+      size: 27968
+    - path: nodes/IDG/SMILES-Water/molecule.png
+      hash: md5
+      md5: 2c85ac4512e25996742ce38d8d72c0dd
+      size: 2793
+    - path: nodes/IDG/SMILES-Water/node-meta.json
+      hash: md5
+      md5: afaace04513f5500fde9897d345a2d48
+      size: 48
+    params:
+      params.yaml:
+        IDG_Packmol:
+          box:
+          count:
+          - 100
+          data_ids:
+          density: 997
+          pbc: true
+          tolerance: 2.0
+    outs:
+    - path: nodes/IDG/Packmol/atoms.h5
+      hash: md5
+      md5: 82a81c176a94ae58c8800ab1b4f873a1
+      size: 37568
+    - path: nodes/IDG/Packmol/node-meta.json
+      hash: md5
+      md5: b7f4c0109c00c36893b92bd3c2e54da8
+      size: 48
+    - path: nodes/IDG/Packmol/packmol
+      hash: md5
+      md5: e6397f367d2ee903435cf90c23852e0d.dir
+      size: 17316
+      nfiles: 3
+  IDG_ASEGeoOpt:
+    cmd: zntrack run ipsuite.nodes.ASEGeoOpt --name IDG_ASEGeoOpt
+    deps:
+    - path: external/b1799dde-b87b-47c0-9678-af7fcf7b96e7.json
+      hash: md5
+      md5: accc8a2fcb83d05845ed506eebcf9623
+      size: 48
+    - path: nodes/IDG/Packmol/atoms.h5
+      hash: md5
+      md5: 82a81c176a94ae58c8800ab1b4f873a1
+      size: 37568
+    - path: nodes/IDG/Packmol/node-meta.json
+      hash: md5
+      md5: b7f4c0109c00c36893b92bd3c2e54da8
+      size: 48
+    - path: nodes/IDG/Packmol/packmol
+      hash: md5
+      md5: e6397f367d2ee903435cf90c23852e0d.dir
+      size: 17316
+      nfiles: 3
+    params:
+      params.yaml:
+        IDG_ASEGeoOpt:
+          data_id: 0
+          dump_rate: 1000
+          init_kwargs: {}
+          maxstep:
+          optimizer: FIRE
+          repeat:
+          - 1
+          - 1
+          - 1
+          run_kwargs:
+            fmax: 0.5
+    outs:
+    - path: nodes/IDG/ASEGeoOpt/model_outs
+      hash: md5
+      md5: 64586897446153f477c052dd0e2579ad.dir
+      size: 11
+      nfiles: 1
+    - path: nodes/IDG/ASEGeoOpt/node-meta.json
+      hash: md5
+      md5: eb41c4b97bdffbb00aaa3b5770f925ba
+      size: 48
+    - path: nodes/IDG/ASEGeoOpt/structures.h5
+      hash: md5
+      md5: 3eb65aa6a269c8488aa7ef9b345a53b8
+      size: 1202752
+  MLP_MD_LangevinThermostat:
+    cmd: zntrack run ipsuite.nodes.LangevinThermostat --name MLP_MD_LangevinThermostat
+    params:
+      params.yaml:
+        MLP_MD_LangevinThermostat:
+          friction: 0.01
+          temperature: 300
+          time_step: 0.5
+    outs:
+    - path: nodes/MLP_MD/LangevinThermostat/node-meta.json
+      hash: md5
+      md5: 9ebdd1ae9bebdaee777ce531ae345ea7
+      size: 48
+  MLP_MD_ASEMD:
+    cmd: zntrack run ipsuite.nodes.ASEMD --name MLP_MD_ASEMD
+    deps:
+    - path: external/b1799dde-b87b-47c0-9678-af7fcf7b96e7.json
+      hash: md5
+      md5: accc8a2fcb83d05845ed506eebcf9623
+      size: 48
+    - path: nodes/IDG/ASEGeoOpt/model_outs
+      hash: md5
+      md5: 64586897446153f477c052dd0e2579ad.dir
+      size: 11
+      nfiles: 1
+    - path: nodes/IDG/ASEGeoOpt/node-meta.json
+      hash: md5
+      md5: eb41c4b97bdffbb00aaa3b5770f925ba
+      size: 48
+    - path: nodes/IDG/ASEGeoOpt/structures.h5
+      hash: md5
+      md5: 3eb65aa6a269c8488aa7ef9b345a53b8
+      size: 1202752
+    - path: nodes/MLP_MD/LangevinThermostat/node-meta.json
+      hash: md5
+      md5: 9ebdd1ae9bebdaee777ce531ae345ea7
+      size: 48
+    params:
+      params.yaml:
+        MLP_MD_ASEMD:
+          data_id: -1
+          dump_rate: 1000
+          pop_last: false
+          repeat:
+          - 1
+          - 1
+          - 1
+          sampling_rate: 1
+          seed: 42
+          steps: 10
+          use_momenta: false
+          wrap: false
+    outs:
+    - path: nodes/MLP_MD/ASEMD/metrics_dict.csv
+      hash: md5
+      md5: 017eedbe2a7b730ae9a1d5ac47f421c3
+      size: 419
+    - path: nodes/MLP_MD/ASEMD/model
+      hash: md5
+      md5: 64586897446153f477c052dd0e2579ad.dir
+      size: 11
+      nfiles: 1
+    - path: nodes/MLP_MD/ASEMD/node-meta.json
+      hash: md5
+      md5: 2a8c17ddb91b9aa1bf74759766fbed4b
+      size: 48
+    - path: nodes/MLP_MD/ASEMD/steps_before_stopping.json
+      hash: md5
+      md5: 6bb61e3b7bce0931da574d19d1d82c88
+      size: 2
+    - path: nodes/MLP_MD/ASEMD/structures.h5
+      hash: md5
+      md5: defaa3ac31873dbb1b8792a9d3343c92
+      size: 386096
+  MLP_MD_TorchD3:
+    cmd: zntrack run ipsuite.nodes.TorchD3 --name MLP_MD_TorchD3
+    deps:
+    - path: nodes/IDG/ASEGeoOpt/model_outs
+      hash: md5
+      md5: 64586897446153f477c052dd0e2579ad.dir
+      size: 11
+      nfiles: 1
+    - path: nodes/IDG/ASEGeoOpt/node-meta.json
+      hash: md5
+      md5: eb41c4b97bdffbb00aaa3b5770f925ba
+      size: 48
+    - path: nodes/IDG/ASEGeoOpt/structures.h5
+      hash: md5
+      md5: 3eb65aa6a269c8488aa7ef9b345a53b8
+      size: 1202752
+    params:
+      params.yaml:
+        MLP_MD_TorchD3:
+          abc: false
+          cnthr: 8
+          cutoff: 8
+          damping: bj
+          dtype: float32
+          skin: 0.0
+          xc: pbe
+    outs:
+    - path: nodes/MLP_MD/TorchD3/atoms.h5
+      hash: md5
+      md5: f0fe8eaab61cf9dafd4b0f759d712fa2
+      size: 1207736
+    - path: nodes/MLP_MD/TorchD3/node-meta.json
+      hash: md5
+      md5: 60ddf3a261526f52c6aee6e75e0f6477
+      size: 48

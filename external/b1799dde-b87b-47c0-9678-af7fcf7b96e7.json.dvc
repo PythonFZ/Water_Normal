@@ -1,0 +1,12 @@
+md5: f28d2ec3195080f057180143a183e503
+frozen: true
+deps:
+- path: nodes/MACE-MP-0/node-meta.json
+  repo:
+    url: https://github.com/RokasEl/MACE-Models
+    rev_lock: 62c386682471960afa05092b4691017b70bb1d2c
+outs:
+- md5: accc8a2fcb83d05845ed506eebcf9623
+  size: 48
+  hash: md5
+  path: b1799dde-b87b-47c0-9678-af7fcf7b96e7.json

@@ -1,0 +1,75 @@
+stages:
+  IDG_SMILES-Water:
+    cmd: zntrack run ipsuite.nodes.SmilesToAtoms --name IDG_SMILES-Water
+    params:
+    - IDG_SMILES-Water
+    outs:
+    - nodes/IDG/SMILES-Water/atoms.h5
+    - nodes/IDG/SMILES-Water/molecule.png
+    metrics:
+    - nodes/IDG/SMILES-Water/node-meta.json:
+        cache: false
+  IDG_Packmol:
+    cmd: zntrack run ipsuite.nodes.Packmol --name IDG_Packmol
+    deps:
+    - nodes/IDG/SMILES-Water/atoms.h5
+    - nodes/IDG/SMILES-Water/molecule.png
+    - nodes/IDG/SMILES-Water/node-meta.json
+    params:
+    - IDG_Packmol
+    outs:
+    - nodes/IDG/Packmol/atoms.h5
+    - nodes/IDG/Packmol/packmol
+    metrics:
+    - nodes/IDG/Packmol/node-meta.json:
+        cache: false
+  IDG_ASEGeoOpt:
+    cmd: zntrack run ipsuite.nodes.ASEGeoOpt --name IDG_ASEGeoOpt
+    deps:
+    - external/b1799dde-b87b-47c0-9678-af7fcf7b96e7.json
+    - nodes/IDG/Packmol/atoms.h5
+    - nodes/IDG/Packmol/node-meta.json
+    - nodes/IDG/Packmol/packmol
+    params:
+    - IDG_ASEGeoOpt
+    outs:
+    - nodes/IDG/ASEGeoOpt/model_outs
+    - nodes/IDG/ASEGeoOpt/structures.h5
+    metrics:
+    - nodes/IDG/ASEGeoOpt/node-meta.json:
+        cache: false
+  MLP_MD_MixCalculator:
+    cmd: zntrack run ipsuite.nodes.MixCalculator --name MLP_MD_MixCalculator
+    deps:
+    - external/b1799dde-b87b-47c0-9678-af7fcf7b96e7.json
+    - nodes/IDG/ASEGeoOpt/model_outs
+    - nodes/IDG/ASEGeoOpt/node-meta.json
+    - nodes/IDG/ASEGeoOpt/structures.h5
+    params:
+    - MLP_MD_MixCalculator
+    - MLP_MD_MixCalculator+calculators+1
+    outs:
+    - nodes/MLP_MD/MixCalculator/atoms.h5
+    metrics:
+    - nodes/MLP_MD/MixCalculator/node-meta.json:
+        cache: false
+  MLP_MD_ASEMD:
+    cmd: zntrack run ipsuite.nodes.ASEMD --name MLP_MD_ASEMD
+    deps:
+    - nodes/IDG/ASEGeoOpt/model_outs
+    - nodes/IDG/ASEGeoOpt/node-meta.json
+    - nodes/IDG/ASEGeoOpt/structures.h5
+    - nodes/MLP_MD/MixCalculator/atoms.h5
+    - nodes/MLP_MD/MixCalculator/node-meta.json
+    params:
+    - MLP_MD_ASEMD
+    - MLP_MD_ASEMD+thermostat
+    outs:
+    - nodes/MLP_MD/ASEMD/metrics_dict.csv
+    - nodes/MLP_MD/ASEMD/model
+    - nodes/MLP_MD/ASEMD/structures.h5
+    metrics:
+    - nodes/MLP_MD/ASEMD/node-meta.json:
+        cache: false
+    - nodes/MLP_MD/ASEMD/steps_before_stopping.json:
+        cache: false
