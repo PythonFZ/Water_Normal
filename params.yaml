@@ -15,7 +15,7 @@ IDG_Packmol:
     count:
     - 100
     data_ids: null
-    density: 997
+    density: 999.84
     pbc: true
     tolerance: 2.0
 IDG_SMILES-Water:
@@ -25,7 +25,7 @@ IDG_SMILES-Water:
     smiles: O
 MLP_MD_ASEMD:
     data_id: -1
-    dump_rate: 1000
+    dump_rate: 100000
     pop_last: false
     repeat:
     - 1
@@ -38,7 +38,7 @@ MLP_MD_ASEMD:
     wrap: false
 MLP_MD_ASEMD+thermostat:
     friction: 0.01
-    temperature: 300
+    temperature: 273.15
     time_step: 0.5
 MLP_MD_MixCalculator:
     methods: sum
