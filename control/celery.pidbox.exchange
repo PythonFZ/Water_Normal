@@ -1,1 +1,0 @@
-[["", "", "celery@default_worker.celery.pidbox"], ["", "", "celery@slow_worker.celery.pidbox"], ["", "", "celery@fast_worker.celery.pidbox"]]

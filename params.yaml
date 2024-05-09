@@ -33,7 +33,7 @@ MLP_MD_ASEMD:
     - 1
     sampling_rate: 1
     seed: 42
-    steps: 100
+    steps: 200000
     use_momenta: false
     wrap: false
 MLP_MD_ASEMD+thermostat:
