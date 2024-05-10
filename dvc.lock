@@ -44,21 +44,21 @@ stages:
           count:
           - 100
           data_ids:
-          density: 997
+          density: 983.19
           pbc: true
           tolerance: 2.0
     outs:
     - path: nodes/IDG/Packmol/atoms.h5
       hash: md5
-      md5: 29a62b4e9046afed3346b480282898ed
+      md5: 505bc0376aa0574b98c2b4526629a8d5
       size: 37568
     - path: nodes/IDG/Packmol/node-meta.json
       hash: md5
-      md5: a5164d2a0560dd75c1915476c80670f4
+      md5: bd9eb37a7beecac23830936883b3d7a2
       size: 48
     - path: nodes/IDG/Packmol/packmol
       hash: md5
-      md5: 75acae1e06f2ed6d13a235bdb3381c36.dir
+      md5: 5504acccc84272bd4775443270731b63.dir
       size: 17316
       nfiles: 3
   IDG_ASEGeoOpt:
@@ -70,15 +70,15 @@ stages:
       size: 48
     - path: nodes/IDG/Packmol/atoms.h5
       hash: md5
-      md5: 29a62b4e9046afed3346b480282898ed
+      md5: 505bc0376aa0574b98c2b4526629a8d5
       size: 37568
     - path: nodes/IDG/Packmol/node-meta.json
       hash: md5
-      md5: a5164d2a0560dd75c1915476c80670f4
+      md5: bd9eb37a7beecac23830936883b3d7a2
       size: 48
     - path: nodes/IDG/Packmol/packmol
       hash: md5
-      md5: 75acae1e06f2ed6d13a235bdb3381c36.dir
+      md5: 5504acccc84272bd4775443270731b63.dir
       size: 17316
       nfiles: 3
     params:
@@ -103,11 +103,11 @@ stages:
       nfiles: 1
     - path: nodes/IDG/ASEGeoOpt/node-meta.json
       hash: md5
-      md5: b60f905a886cea9ced8c754438d1c8b4
+      md5: 12e1a6f15f96400e98041fe64dc4b752
       size: 48
     - path: nodes/IDG/ASEGeoOpt/structures.h5
       hash: md5
-      md5: 53e62110ca7d2fc3fd0e397fb7fb01f3
+      md5: 35f4eeef8cee57a379b3784b6c5c0fa3
       size: 1010040
   MLP_MD_LangevinThermostat:
     cmd: zntrack run ipsuite.nodes.LangevinThermostat --name MLP_MD_LangevinThermostat
@@ -132,25 +132,25 @@ stages:
       nfiles: 1
     - path: nodes/IDG/ASEGeoOpt/node-meta.json
       hash: md5
-      md5: b60f905a886cea9ced8c754438d1c8b4
+      md5: 12e1a6f15f96400e98041fe64dc4b752
       size: 48
     - path: nodes/IDG/ASEGeoOpt/structures.h5
       hash: md5
-      md5: 53e62110ca7d2fc3fd0e397fb7fb01f3
+      md5: 35f4eeef8cee57a379b3784b6c5c0fa3
       size: 1010040
     - path: nodes/MLP_MD/MixCalculator/atoms.h5
       hash: md5
-      md5: 3424e667784bfe2128e86610cd5344a4
+      md5: d28029c96b7b184026a163c1ec72b190
       size: 910616
     - path: nodes/MLP_MD/MixCalculator/node-meta.json
       hash: md5
-      md5: a3245942ccfaf44acdb59d7acff4b320
+      md5: 7107c60d754f294c59fa3e6d77864e7c
       size: 48
     params:
       params.yaml:
         MLP_MD_ASEMD:
           data_id: -1
-          dump_rate: 1000
+          dump_rate: 100000
           pop_last: false
           repeat:
           - 1
@@ -163,13 +163,13 @@ stages:
           wrap: false
         MLP_MD_ASEMD+thermostat:
           friction: 0.01
-          temperature: 300
+          temperature: 333.15
           time_step: 0.5
     outs:
     - path: nodes/MLP_MD/ASEMD/metrics_dict.csv
       hash: md5
-      md5: f287235b91a4e2e3991492402ba09a37
-      size: 8764943
+      md5: efde2814badb869b17f5ab61c4edde12
+      size: 8765427
     - path: nodes/MLP_MD/ASEMD/model
       hash: md5
       md5: 64586897446153f477c052dd0e2579ad.dir
@@ -177,7 +177,7 @@ stages:
       nfiles: 1
     - path: nodes/MLP_MD/ASEMD/node-meta.json
       hash: md5
-      md5: c834ab396a45dad29f3c3a8d40a0eeea
+      md5: e61200796cd143f8446ecc0d0bef6bc9
       size: 48
     - path: nodes/MLP_MD/ASEMD/steps_before_stopping.json
       hash: md5
@@ -185,8 +185,8 @@ stages:
       size: 2
     - path: nodes/MLP_MD/ASEMD/structures.h5
       hash: md5
-      md5: 1fba2d0e40057cd51b64e6e3a79d09fe
-      size: 4910312104
+      md5: cf29a39ab153a6d299701f0dee3b8937
+      size: 4829355328
   MLP_MD_TorchD3:
     cmd: zntrack run ipsuite.nodes.TorchD3 --name MLP_MD_TorchD3
     deps:
@@ -236,11 +236,11 @@ stages:
       nfiles: 1
     - path: nodes/IDG/ASEGeoOpt/node-meta.json
       hash: md5
-      md5: b60f905a886cea9ced8c754438d1c8b4
+      md5: 12e1a6f15f96400e98041fe64dc4b752
       size: 48
     - path: nodes/IDG/ASEGeoOpt/structures.h5
       hash: md5
-      md5: 53e62110ca7d2fc3fd0e397fb7fb01f3
+      md5: 35f4eeef8cee57a379b3784b6c5c0fa3
       size: 1010040
     params:
       params.yaml:
@@ -257,9 +257,9 @@ stages:
     outs:
     - path: nodes/MLP_MD/MixCalculator/atoms.h5
       hash: md5
-      md5: 3424e667784bfe2128e86610cd5344a4
+      md5: d28029c96b7b184026a163c1ec72b190
       size: 910616
     - path: nodes/MLP_MD/MixCalculator/node-meta.json
       hash: md5
-      md5: a3245942ccfaf44acdb59d7acff4b320
+      md5: 7107c60d754f294c59fa3e6d77864e7c
       size: 48
